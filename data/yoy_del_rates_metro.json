@@ -1,0 +1,242 @@
+[
+  {
+    "RegionType": "MetroArea",
+    "Year": "2008",
+    "mean_del": 3.3877,
+    "max_del": 10.2,
+    "min_del": 0.7,
+    "del_diff": 9.5
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2009",
+    "mean_del": 3.8019,
+    "max_del": 11.1,
+    "min_del": 0.9,
+    "del_diff": 10.2
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2010",
+    "mean_del": 3.6172,
+    "max_del": 11.1,
+    "min_del": 1,
+    "del_diff": 10.1
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2011",
+    "mean_del": 3.3452,
+    "max_del": 10.3,
+    "min_del": 0.8,
+    "del_diff": 9.5
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2012",
+    "mean_del": 3.2982,
+    "max_del": 10,
+    "min_del": 0.7,
+    "del_diff": 9.3
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2013",
+    "mean_del": 2.8999,
+    "max_del": 10.4,
+    "min_del": 0.3,
+    "del_diff": 10.1
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2014",
+    "mean_del": 2.5011,
+    "max_del": 8.2,
+    "min_del": 0.2,
+    "del_diff": 8
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2015",
+    "mean_del": 2.3112,
+    "max_del": 9,
+    "min_del": 0.3,
+    "del_diff": 8.7
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2016",
+    "mean_del": 2.2374,
+    "max_del": 9.1,
+    "min_del": 0.2,
+    "del_diff": 8.9
+  },
+  {
+    "RegionType": "MetroArea",
+    "Year": "2017",
+    "mean_del": 2.1616,
+    "max_del": 9.2,
+    "min_del": 0.3,
+    "del_diff": 8.9
+  },
+  {
+    "RegionType": "National",
+    "Year": "2008",
+    "mean_del": 3.4833,
+    "max_del": 4.2,
+    "min_del": 3.1,
+    "del_diff": 1.1
+  },
+  {
+    "RegionType": "National",
+    "Year": "2009",
+    "mean_del": 3.9083,
+    "max_del": 4.2,
+    "min_del": 3.7,
+    "del_diff": 0.5
+  },
+  {
+    "RegionType": "National",
+    "Year": "2010",
+    "mean_del": 3.6333,
+    "max_del": 4,
+    "min_del": 3.3,
+    "del_diff": 0.7
+  },
+  {
+    "RegionType": "National",
+    "Year": "2011",
+    "mean_del": 3.3167,
+    "max_del": 3.7,
+    "min_del": 2.9,
+    "del_diff": 0.8
+  },
+  {
+    "RegionType": "National",
+    "Year": "2012",
+    "mean_del": 3.275,
+    "max_del": 3.7,
+    "min_del": 3,
+    "del_diff": 0.7
+  },
+  {
+    "RegionType": "National",
+    "Year": "2013",
+    "mean_del": 2.8583,
+    "max_del": 3.4,
+    "min_del": 2.6,
+    "del_diff": 0.8
+  },
+  {
+    "RegionType": "National",
+    "Year": "2014",
+    "mean_del": 2.45,
+    "max_del": 2.9,
+    "min_del": 2.1,
+    "del_diff": 0.8
+  },
+  {
+    "RegionType": "National",
+    "Year": "2015",
+    "mean_del": 2.2667,
+    "max_del": 2.7,
+    "min_del": 1.9,
+    "del_diff": 0.8
+  },
+  {
+    "RegionType": "National",
+    "Year": "2016",
+    "mean_del": 2.1667,
+    "max_del": 2.6,
+    "min_del": 1.8,
+    "del_diff": 0.8
+  },
+  {
+    "RegionType": "National",
+    "Year": "2017",
+    "mean_del": 2.0667,
+    "max_del": 2.4,
+    "min_del": 1.8,
+    "del_diff": 0.6
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2008",
+    "mean_del": 3.1993,
+    "max_del": 7.1,
+    "min_del": 0.9,
+    "del_diff": 6.2
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2009",
+    "mean_del": 3.641,
+    "max_del": 7.1,
+    "min_del": 1.4,
+    "del_diff": 5.7
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2010",
+    "mean_del": 3.5509,
+    "max_del": 6.9,
+    "min_del": 1.2,
+    "del_diff": 5.7
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2011",
+    "mean_del": 3.3865,
+    "max_del": 7.4,
+    "min_del": 0.9,
+    "del_diff": 6.5
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2012",
+    "mean_del": 3.3801,
+    "max_del": 7.7,
+    "min_del": 1.2,
+    "del_diff": 6.5
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2013",
+    "mean_del": 3.0869,
+    "max_del": 7.2,
+    "min_del": 1.1,
+    "del_diff": 6.1
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2014",
+    "mean_del": 2.7004,
+    "max_del": 6.6,
+    "min_del": 0.9,
+    "del_diff": 5.7
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2015",
+    "mean_del": 2.4941,
+    "max_del": 6,
+    "min_del": 0.6,
+    "del_diff": 5.4
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2016",
+    "mean_del": 2.4828,
+    "max_del": 5.7,
+    "min_del": 0.9,
+    "del_diff": 4.8
+  },
+  {
+    "RegionType": "NonMetroArea",
+    "Year": "2017",
+    "mean_del": 2.4766,
+    "max_del": 5.8,
+    "min_del": 0.9,
+    "del_diff": 4.9
+  }
+]
