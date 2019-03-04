@@ -47,7 +47,6 @@ function myVis(data) {
     return acc;
   }, {});
   const delScale = d3.scaleLinear().domain([0, delDomain.max]).range([0, 1]);
-  // const colorScale = d => d3.interpolateInferno(delScale(d));  // linear interploation, not using sqrt
   const colorScale = d => d3.interpolateViridis(delScale(d));  // linear interploation, not using sqrt
 
   // next we set up our projection stuff
