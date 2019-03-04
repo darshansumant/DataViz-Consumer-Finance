@@ -28,7 +28,7 @@ function myVis(data) {
   // you tend to see it for stuff in object, (as opposed to arrays), but this is cool too
   const [stateShapes, stateDel] = data;
   const width = 1000;
-  const height = 800;
+  const height = 550;
   const margin = {
     top: 10,
     left: 10,
