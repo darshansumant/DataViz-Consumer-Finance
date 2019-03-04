@@ -69,4 +69,9 @@ function myVis(data) {
       .attr('fill', d => colorScale(stateNameToDel[d.properties.State]))
       .attr('d', d => geoGenerator(d));
 
+  // const svg = d3.select('.npa-container')
+  //       .attr('width', width)
+  //       .attr('height', height)
+  //       .append('g')
+  //         .attr('transform', `translate(${margin.left},${margin.top})`);
 }
