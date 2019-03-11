@@ -197,22 +197,52 @@ function stockVis(data) {
     .range(['#D3D3D3']);
 
   // Define the line creation function - trying different variables
-  const lineEval = d3.line().x(d => x(new Date(d.date))).y(d => y(Number(d.del)));
-  const svg = d3.select('#thevis').attr('width', width).attr('height', height);
+  const lineEval_del = d3.line().x(d => x(new Date(d.date))).y(d => y(Number(d.del)));
+  const lineEval_npa = d3.line().x(d => x(new Date(d.date))).y(d => y(Number(d.npa)));
+  // const svg = d3.select('#thevis').attr('width', width).attr('height', height);
 
-  // Create the line plots (data passed on separately for different groups)
+  // Line plots to show Delinquency Trends (separate series for each state)
   const chart3 = d3.select('.vis-container')
     .append('g')
-      .attr('transform', "translate(" + margin.left + "," + 1120 + ")")
-      .attr('class', 'trends');
+      .attr('transform', "translate(" + margin.left + "," + 1400 + ")")
+      .attr('class', 'trends_del')
+      .attr('height', height)
+      .attr('width', width);
 
   chart3.selectAll('line').data(mappedData)
     .enter().append('path')
-    .attr('d', d => lineEval(d.data))
+    .attr('d', d => lineEval_del(d.data))
     .attr('stroke', d => color(d.key))
     .attr('fill', 'none')
     .attr('stroke-width', 2);
 
-  // d3.buildLegend(svg, color, Object.keys(groups), plotHeight, plotWidth);
-  // buildAnnotations(svg, x, y, plotHeight);
+  buildAnnotations(chart3, x, y, plotHeight);
+
+  // Line plots to show NPA Trends (separate series for each state)
+  const chart4 = d3.select('.vis-container')
+    .append('g')
+      .attr('transform', "translate(" + Number(margin.left + 500) + "," + 1400 + ")")
+      .attr('class', 'trends_npa')
+      .attr('height', height)
+      .attr('width', width);
+
+  chart4.selectAll('line').data(mappedData)
+    .enter().append('path')
+    .attr('d', d => lineEval_npa(d.data))
+    .attr('stroke', d => color(d.key))
+    .attr('fill', 'none')
+    .attr('stroke-width', 2);
+
+  buildAnnotations(chart4, x, y, plotHeight);
+
+  // buildLegend(svg, color, Object.keys(groups), plotHeight, plotWidth);
+  buildAnnotations(chart3, x, y, plotHeight);
+}
+
+function buildAnnotations(g, x, y, plotHeight) {
+  g.append('g').call(d3.axisBottom(x)).attr('transform', `translate(0, ${plotHeight})`);
+  g.append('g').call(d3.axisRight(y));
+
+  const timeFormatter = d3.timeFormat('%Y-%m-%d');
+
 }
