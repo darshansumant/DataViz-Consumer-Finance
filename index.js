@@ -1,9 +1,10 @@
 /*
 Name: index.js
 Author: Darshan Sumant (cnet: darshansumant)
-Reference: 1) Andrew's TA & d3 workshop materials
-           2) d3 documentation on color scales
-           3) geoplot repository - https://github.com/ResidentMario/geoplot-data
+References: 1) Andrew's TA & d3 workshop materials
+               https://github.com/mcnuttandrew/capp-30239/
+            2) d3 documentation on color scales
+            3) geoplot repository - https://github.com/ResidentMario/geoplot-data
 */
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -179,7 +180,7 @@ function stockVis(data) {
   const mappedData = Object.keys(groups).map(key => ({key, data: groups[key]}));
 
   const timeDomain = getTimeDomain(data);
-  const yDomain = getYDomain(data, 'del');
+  const yDomain = getYDomain(data, 'npa');
 
   // Define the the X-axis scaling (time scale)
   const x = d3.scaleTime()
@@ -204,7 +205,7 @@ function stockVis(data) {
   // Line plots to show Delinquency Trends (separate series for each state)
   const chart3 = d3.select('.vis-container')
     .append('g')
-      .attr('transform', "translate(" + margin.left + "," + 1400 + ")")
+      .attr('transform', "translate(" + margin.left + "," + 1200 + ")")
       .attr('class', 'trends_del')
       .attr('height', height)
       .attr('width', width);
@@ -217,11 +218,12 @@ function stockVis(data) {
     .attr('stroke-width', 2);
 
   buildAnnotations(chart3, x, y, plotHeight);
+  buildTitle(chart3, width, margin, "Month-on-Month Mortgage Delinquency rates")
 
   // Line plots to show NPA Trends (separate series for each state)
   const chart4 = d3.select('.vis-container')
     .append('g')
-      .attr('transform', "translate(" + Number(margin.left + 500) + "," + 1400 + ")")
+      .attr('transform', "translate(" + Number(margin.left + 500) + "," + 1200 + ")")
       .attr('class', 'trends_npa')
       .attr('height', height)
       .attr('width', width);
@@ -234,9 +236,9 @@ function stockVis(data) {
     .attr('stroke-width', 2);
 
   buildAnnotations(chart4, x, y, plotHeight);
+  buildTitle(chart4, width, margin, "Month-on-Month Mortgage NPA rates")
 
   // buildLegend(svg, color, Object.keys(groups), plotHeight, plotWidth);
-  buildAnnotations(chart3, x, y, plotHeight);
 }
 
 function buildAnnotations(g, x, y, plotHeight) {
@@ -245,4 +247,16 @@ function buildAnnotations(g, x, y, plotHeight) {
 
   const timeFormatter = d3.timeFormat('%Y-%m-%d');
 
+}
+
+function buildTitle(g, width, margin, title_text){
+  g.append("text")
+    .attr("class", "title")
+    .attr("x", 0.5*width)
+    .attr("y", 0.5*margin.top)
+    .text(title_text)
+    .attr("text-anchor", "middle")
+    .attr("font-size", 16)
+    .attr("font-family", "sans-serif")
+    .attr("fill", "navy");
 }
