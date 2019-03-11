@@ -19,7 +19,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Error handling - push log to console
     .catch(function(error) {
       console.log(error);
-    })
+    });
+  fetch('./data/perf_trends_by_state.json')
+  // Read in the Performance Trends data by State
+    .then(response => response.json())
+    .then(data => stockVis(data));
 });
 
 // function to extract domain from data provided
@@ -37,7 +41,7 @@ function myVis(data) {
 
   const [stateShapes, stateDel, stateNPA] = data;
   const width = 1000;
-  const height = 1100;
+  const height = 2000;
   const margin = {
     top: 10,
     left: 10,
@@ -123,4 +127,92 @@ function myVis(data) {
     .attr("font-family", "sans-serif")
     .attr("fill", "navy");
 
+}
+
+// Extract different Data Series from JSON using GroupBy function
+function groupBy(data, accesor) {
+  return data.reduce((acc, row) => {
+    if (!acc[row[accesor]]) {
+      acc[row[accesor]] = [];
+    }
+    acc[row[accesor]].push(row);
+    return acc;
+  }, {});
+}
+// This function addresses the often fidly problem of date manipulation
+// minVal and maxVal are in epoch time, while min and max are the regular domain
+// as strings. You should use min and max for the domain.
+function getTimeDomain(data) {
+  return data.reduce((acc, row) => {
+    const epochTime = (new Date(row.date)).getTime();
+    return {
+      minVal: Math.min(epochTime, acc.minVal),
+      maxVal: Math.max(epochTime, acc.maxVal),
+      min: epochTime < acc.minVal ? row.date : acc.min,
+      max: epochTime > acc.maxVal ? row.date : acc.max
+    };
+  }, {minVal: Infinity, maxVal: -Infinity, min: null, max: null});
+}
+
+// Function to get the Y-axis domain/range
+function getYDomain(data, accessor) {
+  return data.reduce((acc, row) => {
+    const val = Number(row[accessor]);
+    return {
+      min: Math.min(val, acc.min),
+      max: Math.max(val, acc.max)
+    };
+  }, {min: Infinity, max: -Infinity});
+}
+
+function stockVis(data) {
+
+  // first break apart the data into one series for each of the companies
+  const height = 400;
+  const width = 500;
+  const margin = {top: 10, left: 10, right: 10, bottom: 10};
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
+
+  // GroupBy 'Name' to create separate series for each State
+  const groups = groupBy(data, 'Name');
+  const mappedData = Object.keys(groups).map(key => ({key, data: groups[key]}));
+
+  const timeDomain = getTimeDomain(data);
+  const yDomain = getYDomain(data, 'del');
+
+  // Define the the X-axis scaling (time scale)
+  const x = d3.scaleTime()
+    .domain([new Date(timeDomain.min), new Date(timeDomain.max)])
+    .range([margin.left, plotWidth]);
+
+  // Define the Y-Axis scaling
+  const y = d3.scaleLinear()
+    // .domain([yDomain.min, yDomain.max])
+    .domain([0, yDomain.max])
+    .range([plotHeight, margin.top]);
+
+  // Define Color scale (by Group) - all series in grey (none in focus)
+  const color = d3.scaleOrdinal().domain(Object.keys(groups))
+    .range(['#D3D3D3']);
+
+  // Define the line creation function - trying different variables
+  const lineEval = d3.line().x(d => x(new Date(d.date))).y(d => y(Number(d.del)));
+  const svg = d3.select('#thevis').attr('width', width).attr('height', height);
+
+  // Create the line plots (data passed on separately for different groups)
+  const chart3 = d3.select('.vis-container')
+    .append('g')
+      .attr('transform', "translate(" + margin.left + "," + 1120 + ")")
+      .attr('class', 'trends');
+
+  chart3.selectAll('line').data(mappedData)
+    .enter().append('path')
+    .attr('d', d => lineEval(d.data))
+    .attr('stroke', d => color(d.key))
+    .attr('fill', 'none')
+    .attr('stroke-width', 2);
+
+  // d3.buildLegend(svg, color, Object.keys(groups), plotHeight, plotWidth);
+  // buildAnnotations(svg, x, y, plotHeight);
 }
