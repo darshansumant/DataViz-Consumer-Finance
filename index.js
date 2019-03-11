@@ -43,12 +43,9 @@ function myVis(data) {
   const [stateShapes, stateDel, stateNPA] = data;
   const width = 1000;
   const height = 2000;
-  const margin = {
-    top: 10,
-    left: 10,
-    right: 10,
-    bottom: 10
-  };
+  const margin = {top: 10, left: 10, right: 10, bottom: 10 };
+  const plotWidth = width - margin.left - margin.right;
+  const plotHeight = height - margin.top - margin.bottom;
 
   // color defined as per delinquency domain
   const delDomain = computeDomain(stateDel, 'mean_del');
@@ -78,15 +75,17 @@ function myVis(data) {
     .attr('width', width)
     .attr('height', height)
     .append('g')
+      .attr('width', 500)
+      .attr('height', 400)
       .attr('transform', `translate(${margin.left},${margin.top})`)
-      .attr('class', 'delinquency');
+      .attr('class', 'map_del');
 
   // construct the rendered states
   chart1.selectAll('.state')
     .data(stateShapes.features)
     .enter()
     .append('path')
-      .attr('class', 'state')
+      .attr('class', d => d.properties.State)
       .attr('stroke', 'black')
       .attr('fill', d => colorScale(stateNameToDel[d.properties.State]))
       .attr('d', d => geoGenerator(d));
@@ -94,14 +93,14 @@ function myVis(data) {
   const chart2 = d3.select('.vis-container')
     .append('g')
       .attr('transform', "translate(" + margin.left + "," + 560 + ")")
-      .attr('class', 'npa');
+      .attr('class', 'map_npa');
 
   // construct the rendered states
   chart2.selectAll('.state')
     .data(stateShapes.features)
     .enter()
     .append('path')
-      .attr('class', 'state')
+      .attr('class', d => d.properties.State)
       .attr('stroke', 'black')
       .attr('fill', d => colorScale(stateNameToNPA[d.properties.State]))
         .attr('d', d => geoGenerator(d));
