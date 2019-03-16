@@ -27,6 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(data => stockVis(data));
 });
 
+// Reference: http://bl.ocks.org/mattykuch/40ba19de703632ea2afbbc5156b9471f
+var activeDistrict; // Will be used for linked hovering
+
+
 // function to extract domain from data provided
 function computeDomain(data, key) {
   return data.reduce((acc, row) => {
@@ -92,7 +96,7 @@ function myVis(data) {
 
   const chart2 = d3.select('.vis-container')
     .append('g')
-      .attr('transform', "translate(" + margin.left + "," + 560 + ")")
+      .attr('transform', "translate(" + margin.left + "," + 600 + ")")
       .attr('class', 'map_npa');
 
   // construct the rendered states
@@ -170,7 +174,7 @@ function stockVis(data) {
   // first break apart the data into one series for each of the companies
   const height = 400;
   const width = 500;
-  const margin = {top: 10, left: 10, right: 10, bottom: 10};
+  const margin = {top: 10, left: 20, right: 10, bottom: 10};
   const plotWidth = width - margin.left - margin.right;
   const plotHeight = height - margin.top - margin.bottom;
 
@@ -222,7 +226,7 @@ function stockVis(data) {
   // Line plots to show NPA Trends (separate series for each state)
   const chart4 = d3.select('.vis-container')
     .append('g')
-      .attr('transform', "translate(" + Number(margin.left + 500) + "," + 1200 + ")")
+      .attr('transform', "translate(" + Number(margin.left + 550) + "," + 1200 + ")")
       .attr('class', 'trends_npa')
       .attr('height', height)
       .attr('width', width);
@@ -242,7 +246,7 @@ function stockVis(data) {
 
 function buildAnnotations(g, x, y, plotHeight) {
   g.append('g').call(d3.axisBottom(x)).attr('transform', `translate(0, ${plotHeight})`);
-  g.append('g').call(d3.axisRight(y));
+  g.append('g').call(d3.axisLeft(y));
 
   const timeFormatter = d3.timeFormat('%Y-%m-%d');
 
@@ -255,7 +259,7 @@ function buildTitle(g, width, margin, title_text){
     .attr("y", 0.5*margin.top)
     .text(title_text)
     .attr("text-anchor", "middle")
-    .attr("font-size", 16)
+    .attr("font-size", 14)
     .attr("font-family", "sans-serif")
     .attr("fill", "navy");
 }
