@@ -1,3 +1,6 @@
+// Referenced from Mike Bostock's D3+Leaflet integration
+// https://bost.ocks.org/mike/leaflet/
+
 var map = new L.Map("map", {center: [37.0, -96.9], zoom: 4})
     .addLayer(new L.TileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"));
 

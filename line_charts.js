@@ -112,7 +112,6 @@ function plotTrends(data) {
     // create the line charts (delinquency & npa)
     trend1.selectAll('line').data(mappedData)
       .enter().append('path')
-      .attr('class', d => d.Name)
       .attr('d', d => lineEval_del(d.data))
       .attr('stroke', d => color(d.key))
       .attr('fill', 'none')
@@ -134,7 +133,6 @@ function plotTrends(data) {
 
     trend2.selectAll('line').data(mappedData)
       .enter().append('path')
-      .attr('class', d => d.Name)
       .attr('d', d => lineEval_npa(d.data))
       .attr('stroke', d => color(d.key))
       .attr('fill', 'none')
