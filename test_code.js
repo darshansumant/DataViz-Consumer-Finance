@@ -39,3 +39,8 @@ d3.json("https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/g
   }
 
 });
+
+var trend1 = d3.select('#line-charts').append('g')
+    .attr('class', 'trends').attr('id', 'trend1')
+    .attr('width', 50).attr('height', 50)
+    .attr('transform', "translate(" + 10 + "," + 10 + ")");
