@@ -112,16 +112,47 @@ function plotTrends(data) {
     // create the line charts (delinquency & npa)
     trend1.selectAll('line').data(mappedData)
       .enter().append('path')
+      .attr('class', d => d.Name)
       .attr('d', d => lineEval_del(d.data))
       .attr('stroke', d => color(d.key))
       .attr('fill', 'none')
-      .attr('stroke-width', 2);
+      .attr('stroke-width', 0.5)
+      .attr("class", function(d,i) { return "trend" + i; })
+      .on("mouseover", function(d, i) {
+        console.log(i)
+        d3.selectAll("path.trend" + i)
+          .attr("fill", "red")
+          .attr("stroke", "blue")
+          .attr("stroke-width", 3)
+      })
+      .on("mouseout", function(d, i) {
+        d3.selectAll("path.trend" + i)
+          .attr("fill", "none")
+          .attr("stroke", "grey")
+          .attr("stroke-width", 0.5)
+      });
+
     trend2.selectAll('line').data(mappedData)
       .enter().append('path')
+      .attr('class', d => d.Name)
       .attr('d', d => lineEval_npa(d.data))
       .attr('stroke', d => color(d.key))
       .attr('fill', 'none')
-      .attr('stroke-width', 2);
+      .attr('stroke-width', 0.5)
+      .attr("class", function(d,i) { return "trend" + i; })
+      .on("mouseover", function(d, i) {
+        console.log(i)
+        d3.selectAll("path.trend" + i)
+          .attr("fill", "red")
+          .attr("stroke", "blue")
+          .attr("stroke-width", 3)
+      })
+      .on("mouseout", function(d, i) {
+        d3.selectAll("path.trend" + i)
+          .attr("fill", "none")
+          .attr("stroke", "grey")
+          .attr("stroke-width", 0.5)
+      });
 
     // add titles & axes to the trend charts
     buildAnnotations(trend1, x, y, plotHeight);

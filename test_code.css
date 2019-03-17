@@ -32,7 +32,7 @@ body {
 svg {
   position: relative;
 }
-
+/*
 path {
   fill: grey;
   fill-opacity: .1;
@@ -45,4 +45,4 @@ path:hover {
   fill-opacity: .7;
   stroke: blue;
   stroke-width: 3px;
-}
+} */
