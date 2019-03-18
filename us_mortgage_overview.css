@@ -35,12 +35,12 @@ body {
 	visibility: visible;
 	}
 
-#map path {
+/* #map path {
   fill: grey;
   fill-opacity: .1;
   stroke: grey;
   stroke-width: 1.5px;
-}
+} */
 
 #map path:hover {
   fill: red;

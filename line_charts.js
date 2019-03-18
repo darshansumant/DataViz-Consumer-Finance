@@ -120,7 +120,7 @@ function plotTrends(data) {
       .on("mouseover", function(d, i) {
         console.log(i)
         d3.selectAll("path.trend" + i)
-          .attr("fill", "red")
+          .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
       })
@@ -141,7 +141,7 @@ function plotTrends(data) {
       .on("mouseover", function(d, i) {
         console.log(i)
         d3.selectAll("path.trend" + i)
-          .attr("fill", "red")
+          .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
       })

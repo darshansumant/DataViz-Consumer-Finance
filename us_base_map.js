@@ -12,7 +12,7 @@ var map = L.map('map').setView([37.0, -96.90], 4);
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=' + mapboxAccessToken,
   {
     id: 'mapbox.light',
-    attribution: 'Tiles by <a href="https://www.mapbox.com/">mapbox</a>, <a href="https://github.com/PublicaMundi">PublicMundi</a>'
+    attribution: 'Tiles by <a href="https://www.mapbox.com/">mapbox</a>, <a href="https://github.com/PublicaMundi">PublicaMundi</a>, Data by <a href="https://www.consumerfinance.gov/">CFPB</a>'
   }).addTo(map);
 
 // Add State Polygons
@@ -20,7 +20,7 @@ $.getJSON('https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data
   L.geoJson(statesdata, {style: style}).addTo(map);
 })
 
-// Define colorScale for the State Polygons
+// Define colorScale for the State Polygons (Place Holder for now - will be replaced by 2017 Mortgage Volume)
 function getColor(d) {
   return d > 1000 ? '#800026' :
          d > 500  ? '#BD0026' :
@@ -40,6 +40,17 @@ function style(feature) {
       opacity: 1,
       color: 'white',
       dashArray: '3',
-      fillOpacity: 0.7
+      fillOpacity: 0.7,
+      class: feature.properties.name
   };
 }
+
+// Read in CSV file from CFPB (Total Mortgages originated by State in 2017)
+d3.csv("/data/hmda_lar_state_2017.csv").then(function(data) {
+  data.forEach(function(d) {
+    d.count = +d.count;
+    d.as_of_year = +d.as_of_year;
+    d.state_name = d.state_name;
+  })
+  console.log(data[2]);
+});

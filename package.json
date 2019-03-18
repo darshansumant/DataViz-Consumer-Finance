@@ -8,6 +8,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "csvtojson": "^2.0.8",
     "d3-axis": "^1.0.12",
     "d3-geo": "^1.11.3",
     "d3-scale": "^2.2.2",
