@@ -1,8 +1,32 @@
+/*
+Name: line_charts.js
+Author: Darshan Sumant (cnet: darshansumant)
+References: 1) Andrew's TA & d3 workshop materials (especially, the example scaffold)
+               https://github.com/mcnuttandrew/capp-30239/
+            2) d3 documentation on color scales
+            3) d3 + Leaflet Integration example by Mike Bostock
+               https://bost.ocks.org/mike/leaflet/
+            4) Leaflet Tutorial from Maptime Boston
+               https://maptimeboston.github.io/leaflet-intro/
+Additional References:
+  - Creating Leaflet Chloropleth
+    https://leafletjs.com/examples/choropleth/
+  - Refreshing Maps on Button click
+    https://stackoverflow.com/questions/19186428/refresh-leaflet-map-map-container-is-already-initialized
+*/
+
+// Event Listener & JSON fetch structure similar to Andrew's example scaffold
 document.addEventListener("DOMContentLoaded", () => {
   // Read in & Plot the performance trends data by state
   fetch('./data/perf_trends_by_state.json')
     .then(response => response.json())
     .then(data => plotTrends(data));
+
+  // Incorporating the County trends creates errors due to '.' in County Names
+  // Switching to FIPSCode didn't work due to string to number issues
+  // fetch('./data/perf_trends_by_county.json')
+  //   .then(response => response.json())
+  //   .then(data => plotTrends(data));
 });
 
 // Global variables for the line-charts SVG element
@@ -79,7 +103,6 @@ function buildTitle(g, width, margin, title_text){
     .attr("fill", "navy");
 }
 
-
 // Generic Function to plot line-charts
 function plotTrends(data) {
 
@@ -98,7 +121,8 @@ function plotTrends(data) {
 
     // Define the Y-Axis scaling (start from 0 to avoid misinterpretation)
     const y = d3.scaleLinear()
-      .domain([0, yDomain.max])
+      // .domain([0, yDomain.max])
+      .domain([0, 12]) // Max across del & npa (state & county)
       .range([plotHeight, margin.top]);
 
     // Define Color scale (by Group) - all series in grey (none in focus)
@@ -116,16 +140,17 @@ function plotTrends(data) {
       .attr('stroke', d => color(d.key))
       .attr('fill', 'none')
       .attr('stroke-width', 0.5)
-      .attr("class", function(d,i) { return "trend" + i; })
+      // .attr("class", function(d,i) { return d['FIPSCode']; })
+      .attr("class", function(d,i) { return d.key; })
       .on("mouseover", function(d, i) {
-        console.log(i)
-        d3.selectAll("path.trend" + i)
+        console.log(d.key)
+        d3.selectAll("path." + d.key)
           .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
       })
       .on("mouseout", function(d, i) {
-        d3.selectAll("path.trend" + i)
+        d3.selectAll("path." + d.key)
           .attr("fill", "none")
           .attr("stroke", "grey")
           .attr("stroke-width", 0.5)
@@ -137,16 +162,16 @@ function plotTrends(data) {
       .attr('stroke', d => color(d.key))
       .attr('fill', 'none')
       .attr('stroke-width', 0.5)
-      .attr("class", function(d,i) { return "trend" + i; })
+      .attr("class", function(d,i) { return d.key; })
       .on("mouseover", function(d, i) {
-        console.log(i)
-        d3.selectAll("path.trend" + i)
+        console.log(d.key)
+        d3.selectAll("path." + d.key)
           .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
       })
       .on("mouseout", function(d, i) {
-        d3.selectAll("path.trend" + i)
+        d3.selectAll("path." + d.key)
           .attr("fill", "none")
           .attr("stroke", "grey")
           .attr("stroke-width", 0.5)

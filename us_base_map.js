@@ -1,6 +1,19 @@
-// Main Reference used - Boston Tutorial on Leaflet
-// https://maptimeboston.github.io/leaflet-intro/
-// along with https://leafletjs.com/examples/choropleth/
+/*
+Name: us_base_map.js
+Author: Darshan Sumant (cnet: darshansumant)
+References: 1) Andrew's TA & d3 workshop materials (especially, the example scaffold)
+               https://github.com/mcnuttandrew/capp-30239/
+            2) d3 documentation on color scales
+            3) d3 + Leaflet Integration example by Mike Bostock
+               https://bost.ocks.org/mike/leaflet/
+            4) Leaflet Tutorial from Maptime Boston
+               https://maptimeboston.github.io/leaflet-intro/
+Additional References:
+  - Creating Leaflet Chloropleth
+    https://leafletjs.com/examples/choropleth/
+  - Refreshing Maps on Button click
+    https://stackoverflow.com/questions/19186428/refresh-leaflet-map-map-container-is-already-initialized
+*/
 
 // Define the U.S. Mainland Centroid to center the maps on
 const Centroid_Lat = 37.00;
