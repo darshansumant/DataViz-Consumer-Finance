@@ -1,0 +1,73 @@
+<html>
+<head>
+  <title>A Leaflet map!</title>
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="https://d3js.org/d3.v5.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+  <style>
+    #map{ width: 450px; height: 250px; }
+  </style>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <script>
+
+  // initialize the map
+  var map = L.map('map').setView([42.35, -71.08], 13);
+
+  // load a tile layer
+  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',
+    {
+      attribution: 'Tiles by <a href="http://mapc.org">MAPC</a>, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
+      maxZoom: 17,
+      minZoom: 9
+    }).addTo(map);
+
+  // bike lanes
+  L.tileLayer('http://tiles.mapc.org/trailmap-onroad/{z}/{x}/{y}.png',
+  {
+    maxZoom: 17,
+    minZoom: 9
+  }).addTo(map);
+
+  // Load GeoJSON for Boston Neighborhoods
+  $.getJSON("data/Boston_Neighborhoods.geojson",function(hoodData){
+  L.geoJson( hoodData , {
+    style: function(feature){
+      var fillColor,
+          school_type = feature.properties.SCH_TYPE;
+      if (school_type == "ES") fillColor = "#006837";
+      else fillColor = "#f7f7f7";
+      return {fillColor: fillColor};
+    },
+    onEachFeature: function(feature, layer){
+      layer.bindPopup(feature.properties.Name)
+    }
+  }).addTo(map);
+});
+
+  // load GeoJSON from an external file
+  $.getJSON('data/Boston_Public_Schools.geojson',function(data){
+    var schoolIcon = L.icon({
+    iconUrl: 'http://clipart-library.com/images/8cxKKArMi.gif',
+    iconSize: [50,40]
+  });
+    // add GeoJSON layer to the map once the file is loaded
+    L.geoJson(data, {
+      pointToLayer: function(feature,latlng){
+        // return L.marker(latlng,{icon: schoolIcon});
+        var marker = L.marker(latlng,{icon: schoolIcon});
+        marker.bindPopup(feature.properties.SCH_NAME + '<br/>' + feature.properties.BLDG_NAME + ' ' + feature.properties.ADDRESS + '<br/>' + feature.properties.CITY + ' ' + feature.properties.ZIPCODE);
+        return marker;
+    }
+  }).addTo(map);
+  });
+
+
+
+  </script>
+</body>
+</html>

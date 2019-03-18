@@ -1,6 +1,7 @@
 // Referenced from Mike Bostock's D3+Leaflet integration
 // https://bost.ocks.org/mike/leaflet/
 
+// Adjust Zoom & Map Center to fit the mainland U.S. in the svg window
 var map = new L.Map("map", {center: [37.0, -96.9], zoom: 4})
     .addLayer(new L.TileLayer("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"));
 
@@ -15,7 +16,8 @@ d3.json("https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/g
 
   var feature = g.selectAll("path")
     .data(collection.features)
-    .enter().append("path");
+    .enter().append("path")
+    .attr("pointer-events", "visible");
 
   map.on("viewreset", reset);
   reset();

@@ -25,24 +25,26 @@ body {
   display: flex;
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+
+}
+
 .leaflet-zoom-hide {
 	visibility: visible;
 	}
 
-svg {
-  position: relative;
-}
-/*
-path {
+#map path {
   fill: grey;
   fill-opacity: .1;
   stroke: grey;
   stroke-width: 1.5px;
 }
 
-path:hover {
+#map path:hover {
   fill: red;
   fill-opacity: .7;
   stroke: blue;
   stroke-width: 3px;
-} */
+}
