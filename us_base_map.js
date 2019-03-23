@@ -78,7 +78,11 @@ function StateMap(lat, lon, zoom){
 
   // Add State Polygons
   $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-states.json', function(statesdata){
-    new L.geoJson(statesdata, {style: style}).addTo(map);
+    new L.geoJson(statesdata, {
+      style: style,
+      onEachFeature: onEachFeature
+    }).addTo(map);
+
   })
   // Redefine layer as geojson (used later for mousover & mouseout)
   geojson = $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-states.json');
@@ -118,6 +122,7 @@ function CountyMap(lat, lon, zoom){
       style: style,
       onEachFeature: onEachFeature
     }).addTo(map);
+
   })
   // Redefine layer as geojson (used later for mousover & mouseout)
   geojson = $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-counties.json');
@@ -193,6 +198,9 @@ function onEachFeature(feature, layer) {
         mouseout: resetHighlight,
         click: zoomToFeature
     });
+    layer.markerID = feature.id;
+    layer.bindPopup("<strong>ID:</strong> " + feature.id + "<br>" + "<strong>Name:</strong> " + feature.properties.name);
+
 }
 
 // Read in CSV file from CFPB (Total Mortgages originated by State in 2017)

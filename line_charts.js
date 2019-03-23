@@ -193,8 +193,8 @@ function plotTrends(data) {
       .on("mouseover", function(d, i) {
         console.log(d.key)
         d3.selectAll("path." + d.key)
-          .attr("fill", "yellow")
-          .attr("stroke", "blue")
+          .attr("fill", "lightyellow")
+          .attr("stroke", "black")
           .attr("stroke-width", 3)
         // Update the data box label
         d3.selectAll('.chartdatalabel').text(d.key)
@@ -218,8 +218,8 @@ function plotTrends(data) {
       .on("mouseover", function(d, i) {
         console.log(d.key)
         d3.selectAll("path." + d.key)
-          .attr("fill", "yellow")
-          .attr("stroke", "blue")
+          .attr("fill", "lightyellow")
+          .attr("stroke", "black")
           .attr("stroke-width", 3)
         // Update the data box label
         d3.selectAll('.chartdatalabel').text(d.key)
