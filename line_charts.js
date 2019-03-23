@@ -49,10 +49,38 @@ var trend2 = d3.select('#line-charts').append('g')
 // Define Tooltip
 var tooltip = d3.select('#viz-main').append('div')
   .attr("class", "tooltip-container")
+  .attr('transform', "translate(" + Number(950) + "," + Number(25) + ")")
   .append("div")
-  .style("opactiy", 0)
+  .style("opactiy", 0.2)
   .attr("class", "tooltip")
   .attr("id", "tooltip-linecharts");
+
+
+// Define Data Boxes (Box for Delinquency Line Chart)
+var box1 = trend1.append('g')
+  .attr('id', 'box1')
+  .attr('transform', "translate(" + Number(plotWidth-100) + "," + Number(25) + ")");
+
+box1.append('rect').attr('class', 'box')
+  .attr('width', 100).attr('height', 20);
+
+var linelabel1 = box1.append('text')
+  .attr('class', 'chartdatalabel').attr('id', 'label1')
+  .attr('transform', "translate(" + Number(10) + "," + Number(0) + ")")
+  .attr("dy", "1.1em").attr('font-size', 12);
+
+// Define Data Boxes (Box for NPA Line Chart)
+var box2 = trend2.append('g')
+  .attr('id', 'box2')
+  .attr('transform', "translate(" + Number(plotWidth-100) + "," + Number(25) + ")");
+
+box2.append('rect').attr('class', 'box')
+  .attr('width', 100).attr('height', 20);
+
+var linelabel2 = box2.append('text')
+  .attr('class', 'chartdatalabel').attr('id', 'label2')
+  .attr('transform', "translate(" + Number(10) + "," + Number(0) + ")")
+  .attr("dy", "1.1em").attr('font-size', 12);
 
 // Extract different Data Series from JSON using GroupBy function
 function groupBy(data, accesor) {
@@ -168,12 +196,16 @@ function plotTrends(data) {
           .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
+        // Update the data box label
+        d3.selectAll('.chartdatalabel').text(d.key)
       })
       .on("mouseout", function(d, i) {
         d3.selectAll("path." + d.key)
           .attr("fill", "none")
           .attr("stroke", "grey")
           .attr("stroke-width", 0.5)
+        // Update the data box label
+        d3.selectAll('.chartdatalabel').text('')
       });
 
     trend2.selectAll('line').data(mappedData)
@@ -189,22 +221,27 @@ function plotTrends(data) {
           .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
+        // Update the data box label
+        d3.selectAll('.chartdatalabel').text(d.key)
 
         // Make Tooltip visible
         tooltip.html(`Hello ${d.key}`)
           .style("opacity", 0.85)
-          .style("left", `${d3.mouse(this)[0] + 15}px`)
-          .style("top", `${d3.mouse(this)[1] + 15}px`);
+          // .style("left", `${d3.mouse(this)[0] + 15}px`)
+          // .style("top", `${d3.mouse(this)[1] + 15}px`)
+          .style("left", d3.select(this).attr("x") + "px")
+          .style("top", d3.select(this).attr("y") + "px");
       })
       .on("mouseout", function(d, i) {
         d3.selectAll("path." + d.key)
           .attr("fill", "none")
           .attr("stroke", "grey")
           .attr("stroke-width", 0.5)
+        // Update the data box label
+        d3.selectAll('.chartdatalabel').text('')
 
         tooltip
-          .style("display", "none")
-          .style("opacity", 0);
+          .style("opacity", 0.2);
       })
       .on("mousmove", function(d, i){
         // var xPos = d3.mouse(this)[0] - 15;
@@ -212,14 +249,6 @@ function plotTrends(data) {
         // tooltip.attr("transform", "translate(" + xPos + "," + yPos + ")");
         // tooltip.select("text").text(d.key);
       });
-
-    // Define Tooltip
-    var tooltip = d3.select('#viz-main').append('div')
-      .attr("class", "tooltip-container")
-      .append("div")
-      .style("opactiy", 0)
-      .attr("class", "tooltip")
-      .attr("id", "tooltip-linecharts");
 
     // add titles & axes to the trend charts
     buildAnnotations(trend1, x, y, plotHeight, 'Year', 'Delinquency Rate (%)');
