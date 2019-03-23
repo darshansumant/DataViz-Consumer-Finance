@@ -252,7 +252,7 @@ function plotTrends(data) {
 
     // add titles & axes to the trend charts
     buildAnnotations(trend1, x, y, plotHeight, 'Year', 'Delinquency Rate (%)');
-    buildTitle(trend1, plotWidth, margin, "Mortgage Delinquencies show seasonality")
+    buildTitle(trend1, plotWidth, margin, "Delinquencies have declined slowly despite seasonal highs")
     // add titles & axes to the trend charts
     buildAnnotations(trend2, x, y, plotHeight, 'Year', 'NPA Rate (%)');
     buildTitle(trend2, plotWidth, margin, "Mortgage NPA rates have declined after initial rise post 2008")
