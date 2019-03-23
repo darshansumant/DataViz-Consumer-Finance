@@ -210,5 +210,5 @@ d3.csv("/data/hmda_lar_state_2017.csv").then(function(data) {
     d.as_of_year = +d.as_of_year;
     d.state_name = d.state_name;
   })
-  console.log(data[2]);
+  // console.log(data[2]);
 });
