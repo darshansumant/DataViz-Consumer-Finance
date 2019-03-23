@@ -32,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
 // Global variables for the line-charts SVG element
 const height = 200;
 const width = 400;
-const margin = {top: 20, left: 20, right: 20, bottom: 20};
+const margin = {top: 20, left: 30, right: 10, bottom: 30};
 const plotWidth = width - margin.left - margin.right;
 const plotHeight = height - margin.top - margin.bottom;
 
@@ -42,9 +42,17 @@ var trend1 = d3.select('#line-charts').append('g')
     .attr('width', plotWidth).attr('height', plotHeight)
     .attr('transform', "translate(" + 10 + "," + 10 + ")");
 var trend2 = d3.select('#line-charts').append('g')
-    .attr('class', 'trends').attr('id', 'trend1')
+    .attr('class', 'trends').attr('id', 'trend2')
     .attr('width', plotWidth).attr('height', plotHeight)
     .attr('transform', "translate(" + 10 + "," + Number(height+10) + ")");
+
+// Define Tooltip
+var tooltip = d3.select('#viz-main').append('div')
+  .attr("class", "tooltip-container")
+  .append("div")
+  .style("opactiy", 0)
+  .attr("class", "tooltip")
+  .attr("id", "tooltip-linecharts");
 
 // Extract different Data Series from JSON using GroupBy function
 function groupBy(data, accesor) {
@@ -82,9 +90,21 @@ function getYDomain(data, accessor) {
 }
 
 // Function to create plot Axes
-function buildAnnotations(g, x, y, plotHeight) {
+function buildAnnotations(g, x, y, plotHeight, xTitle, yTitle) {
+
+  // Build X-Axis
   g.append('g').call(d3.axisBottom(x)).attr('transform', `translate(0, ${plotHeight})`);
+  g.append('text').attr('transform', `translate(${plotWidth/2}, ${plotHeight+35})`)
+    .text(xTitle).attr('font-size', 12);
+
+  // Build Y-Axis
   g.append('g').call(d3.axisLeft(y)).attr('transform', `translate(${margin.left},0)`);
+  g.append('text').attr('transform', `rotate(-90)`)
+    .attr("y", 0 - 10)
+    .attr("x", 0 - (plotHeight*0.65))
+    .attr("dy", "1em")
+    .style("text-anchor", "middle")
+    .text(yTitle).attr('font-size', 12);
 
   const timeFormatter = d3.timeFormat('%Y-%m-%d');
 
@@ -100,7 +120,7 @@ function buildTitle(g, width, margin, title_text){
     .attr("text-anchor", "middle")
     .attr("font-size", 14)
     .attr("font-family", "sans-serif")
-    .attr("fill", "navy");
+    .attr("fill", "black");
 }
 
 // Generic Function to plot line-charts
@@ -169,19 +189,43 @@ function plotTrends(data) {
           .attr("fill", "yellow")
           .attr("stroke", "blue")
           .attr("stroke-width", 3)
+
+        // Make Tooltip visible
+        tooltip.html(`Hello ${d.key}`)
+          .style("opacity", 0.85)
+          .style("left", `${d3.mouse(this)[0] + 15}px`)
+          .style("top", `${d3.mouse(this)[1] + 15}px`);
       })
       .on("mouseout", function(d, i) {
         d3.selectAll("path." + d.key)
           .attr("fill", "none")
           .attr("stroke", "grey")
           .attr("stroke-width", 0.5)
+
+        tooltip
+          .style("display", "none")
+          .style("opacity", 0);
+      })
+      .on("mousmove", function(d, i){
+        // var xPos = d3.mouse(this)[0] - 15;
+        // var yPos = d3.mouse(this)[1] - 25;
+        // tooltip.attr("transform", "translate(" + xPos + "," + yPos + ")");
+        // tooltip.select("text").text(d.key);
       });
 
+    // Define Tooltip
+    var tooltip = d3.select('#viz-main').append('div')
+      .attr("class", "tooltip-container")
+      .append("div")
+      .style("opactiy", 0)
+      .attr("class", "tooltip")
+      .attr("id", "tooltip-linecharts");
+
     // add titles & axes to the trend charts
-    buildAnnotations(trend1, x, y, plotHeight);
-    buildTitle(trend1, plotWidth, margin, "Month-on-Month Mortgage Delinquency rates")
+    buildAnnotations(trend1, x, y, plotHeight, 'Year', 'Delinquency Rate (%)');
+    buildTitle(trend1, plotWidth, margin, "Mortgage Delinquencies show seasonality")
     // add titles & axes to the trend charts
-    buildAnnotations(trend2, x, y, plotHeight);
-    buildTitle(trend2, plotWidth, margin, "Month-on-Month Mortgage NPA rates")
+    buildAnnotations(trend2, x, y, plotHeight, 'Year', 'NPA Rate (%)');
+    buildTitle(trend2, plotWidth, margin, "Mortgage NPA rates have declined after initial rise post 2008")
 
 }

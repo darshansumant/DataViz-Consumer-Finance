@@ -22,6 +22,7 @@ const default_Zoom = 4;
 
 // initialize a null map outside all functions
 var map = null;
+var geojson;
 
 // Create Base Map by State as soon as page loads
 CountyMap(Centroid_Lat, Centroid_Lon, default_Zoom);
@@ -79,6 +80,8 @@ function StateMap(lat, lon, zoom){
   $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-states.json', function(statesdata){
     new L.geoJson(statesdata, {style: style}).addTo(map);
   })
+  // Redefine layer as geojson (used later for mousover & mouseout)
+  geojson = $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-states.json');
 
 }
 
@@ -111,8 +114,28 @@ function CountyMap(lat, lon, zoom){
 
   // Add County Polygons
   $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-counties.json', function(countiesdata){
-    new L.geoJson(countiesdata, {style: style}).addTo(map);
+    new L.geoJson(countiesdata, {
+      style: style,
+      onEachFeature: onEachFeature
+    }).addTo(map);
   })
+  // Redefine layer as geojson (used later for mousover & mouseout)
+  geojson = $.getJSON('https://raw.githubusercontent.com/python-visualization/folium/master/tests/us-counties.json');
+
+  // Code to incorporate Leaflet Control
+  var info = L.control();
+  info.onAdd = function (map) {
+    this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+    this.update();
+    return this._div;
+  };
+
+  // method that we will use to update the control based on feature properties passed
+  info.update = function (props) {
+      this._div.innerHTML = (props ? props.name + ' County' : 'Hover over a county');
+  };
+
+  info.addTo(map);
 
 }
 
@@ -128,6 +151,9 @@ function getColor(d) {
                     '#FFEDA0';
 }
 
+var geojson;
+
+
 // Define display styles for the State Polygons
 function style(feature) {
   return {
@@ -139,6 +165,34 @@ function style(feature) {
       fillOpacity: 0.7,
       class: feature.properties.name
   };
+}
+
+// Event Listener for mousover
+function highlightFeature(e) {
+    var layer = e.target;
+    // Handling feature highlighting through the CSS stylesheet
+    // update info
+    // info.update(layer.feature.properties);
+}
+
+// Function to use for mouseout
+function resetHighlight(e) {
+    // geojson.resetStyle(e.target);
+    // info.update();
+}
+
+// Click listener to Zoom into the geography selected / clicked on
+function zoomToFeature(e) {
+    map.fitBounds(e.target.getBounds());
+}
+
+// Composite Function to handle mouseover, mouseout, & zoom-in
+function onEachFeature(feature, layer) {
+    layer.on({
+        mouseover: highlightFeature,
+        mouseout: resetHighlight,
+        click: zoomToFeature
+    });
 }
 
 // Read in CSV file from CFPB (Total Mortgages originated by State in 2017)
